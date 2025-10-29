@@ -175,30 +175,37 @@ MENU = """
 4) Enter new letters
 """
 
-# main loop
-while True:
-    print("===Spelling Bee Solver===")
-    print("(enter q to quit)\n")
-    letters = get_input()
-    solutions = get_solutions(DICTIONARY_FILE, letters)
 
+def main():
+    """Show the user a menu of options related to the Spelling Bee Helper, allowing access to other parts of the script.
+    """
     while True:
-        for letter in letters:
-            print(letter, end=" ")
-        print()
-        print(MENU)
-        menu_choice = input("Pick a menu option: ")
-        print()
-        if menu_choice == "1":
-            print("\nHints")
-            output_grid(solutions, letters)
+        print("===Spelling Bee Solver===")
+        print("(enter q to quit)\n")
+        letters = get_input()
+        solutions = get_solutions(DICTIONARY_FILE, letters)
+
+        while True:
+            for letter in letters:
+                print(letter, end=" ")
             print()
-        elif menu_choice == "2":
-            two_letter_lists(solutions, letters)
+            print(MENU)
+            menu_choice = input("Pick a menu option: ")
             print()
-        elif menu_choice == "3":
-            print(f"{len(solutions)} possible solutions: ")
-            show_solutions(solutions)
-            print()
-        elif menu_choice == "4":
-            break
+            if menu_choice == "1":
+                print("\nHints")
+                output_grid(solutions, letters)
+                print()
+            elif menu_choice == "2":
+                two_letter_lists(solutions, letters)
+                print()
+            elif menu_choice == "3":
+                print(f"{len(solutions)} possible solutions: ")
+                show_solutions(solutions)
+                print()
+            elif menu_choice == "4":
+                break
+
+
+if __name__ == "__main__":
+    main()
