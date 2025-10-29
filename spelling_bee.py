@@ -1,30 +1,15 @@
 # spelling_bee.py
-# Generate potential solutions to NYT Spelling Bee game.
+# Generate potential solutions to the New York Times Spelling Bee game.
 
-import collections
 import math
 import sys
 
 
-def show_solutions(solutions: list):
-    """Print a three-column list of the Spelling Bee words.
-
-    :param solutions: The puzzle's list of words.
-    """
-    solutions.sort()
-    # get the length of the list, divide by desired columns
-    list_size = len(solutions)
-    # print word n, then the word in position n + (list_size / 3)
-    for n in range(math.floor(len(solutions) / 2)):
-        print(f"{solutions[n]:<12}", end="")
-        try:
-            right_col_word = solutions[n + int(len(solutions) / 2)]
-            print(f"{right_col_word}")
-        except:
-            print()
-
-
 def get_input():
+    """Get the Spelling Bee letters from the user, or return an error message if input is invalid.
+
+    :return: A list of seven letters.
+    """
     while True:
         try:
             user_input = input(
@@ -43,32 +28,36 @@ def get_input():
             print("Input must be seven letters only (no spaces, no punctuation).\n")
 
 
-def filter_dictionary(dictionary_file: str, puzzle_letters: list):
+def get_solutions(dictionary_file: str, puzzle_letters: list):
+    """Filter the given dictionary file for possible solutions to the Spelling Bee's letters.
+
+    :param dictionary_file: The dictionary to search for viable words.
+    :param puzzle_letters: A list of the Spelling Bee puzzle's letters, with the required (i.e., center) letter first in the list.
+    :return: A list of solutions to the puzzle.
+    """
     with open(dictionary_file, 'r') as in_file:
-        dictionary = in_file.read().split("\n")
+        solutions = in_file.read().split("\n")
 
-    # keep words 4+ letters long
-    dictionary = [word for word in dictionary if len(word) >= 4]
+    # filter dictionary for viable words; words must be 4 letters long and not contain punctuation
+    solutions = [word for word in solutions if len(word) >= 4]
+    solutions = [word for word in solutions if word.isalpha()]
 
-    # keep words without punctuation
-    dictionary = [word for word in dictionary if word.isalpha()]
+    # keep only words that have the required puzzle letter
+    solutions = [word for word in solutions if puzzle_letters[0] in word]
 
-    # keep words that have puzzle_letters[0]
-    dictionary = [word for word in dictionary if puzzle_letters[0] in word]
-
-    # remove words that have letters other than puzzle_letters[0:6]
+    # remove words that have letters other than the puzzle letters
     # find other letters
     alphabet = "abcdefghijklmnopqrstuvwxyz"
     invalid_letters = [c for c in alphabet if c not in puzzle_letters]
 
-    remaining_words = dictionary[:]
+    remaining_words = solutions[:]
     for word in remaining_words:
         for letter in invalid_letters:
             if letter in word:
-                dictionary.remove(word)
+                solutions.remove(word)
                 break
 
-    return dictionary
+    return solutions
 
 
 def output_grid(solutions: list, puzzle_letters: list):
@@ -158,6 +147,24 @@ def two_letter_lists(solutions: list, puzzle_letters: list):
     print(", ".join(current_line))
 
 
+def show_solutions(solutions: list):
+    """Print a three-column list of the Spelling Bee words.
+
+    :param solutions: The puzzle's list of words.
+    """
+    solutions.sort()
+    # get the length of the list, divide by desired columns
+    list_size = len(solutions)
+    # print word n, then the word in position n + (list_size / 3)
+    for n in range(math.floor(len(solutions) / 2)):
+        print(f"{solutions[n]:<12}", end="")
+        try:
+            right_col_word = solutions[n + int(len(solutions) / 2)]
+            print(f"{right_col_word}")
+        except:
+            print()
+
+
 # Define constants and variables
 DICTIONARY_FILE = "dictionary.txt"
 
@@ -173,7 +180,7 @@ while True:
     print("===Spelling Bee Solver===")
     print("(enter q to quit)\n")
     letters = get_input()
-    solutions = filter_dictionary(DICTIONARY_FILE, letters)
+    solutions = get_solutions(DICTIONARY_FILE, letters)
 
     while True:
         for letter in letters:
