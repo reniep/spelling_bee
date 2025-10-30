@@ -2,7 +2,6 @@
 # Generate potential solutions to the New York Times Spelling Bee game.
 
 import math
-import sys
 
 
 def get_input():
@@ -15,7 +14,7 @@ def get_input():
             user_input = input(
                 "Enter 7 letters, with the hex's center letter first: ")
             if user_input == "q":
-                sys.exit()
+                quit()
             elif len(user_input) != 7:
                 raise ValueError("Input not seven characters.")
             elif user_input.isalpha() == False:
