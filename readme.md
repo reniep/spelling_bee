@@ -11,7 +11,3 @@ Python script that helps you solve the [New York Times Spelling Bee puzzle](http
 - Customize your experience by loading in a different dictionary as a text file.
     - Default dictionary comes from here: https://inventwithpython.com/dictionary.txt 
     - Alternate dictionary included from http://wordlist.aspell.net/12dicts-readme/
-
-## Planned Features:
-- Load different dictionaries from within the program itself (rather than having to modify the code).
-- List solutions' common bigrams and trigrams (not just starting letters).
