@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spelling-bee"
+version = "0.1.0"
+description = "A helper for NYT Spelling Bee"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+license = {file = "LICENSE.txt"}
+authors = [{name = "Patrick Renie", email = "patrick.renie@gmail.com"}]
+
+[project.optional-dependencies]
+test = ["pytest"]
